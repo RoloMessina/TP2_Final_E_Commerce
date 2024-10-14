@@ -10,12 +10,12 @@ Order.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    iduser: {
+    UserId: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
     products: {
-        type: DataTypes.STRING, // Cambiado de JSON a STRING
+        type: DataTypes.STRING, 
         allowNull: false,
     },
     delivery_address: {

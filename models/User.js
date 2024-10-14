@@ -28,7 +28,7 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    dateOfBirth: { // Nuevo atributo
+    dateOfBirth: { 
       type: DataTypes.DATE,
       allowNull: true,
     },
