@@ -17,6 +17,10 @@ Product.init(
       type: DataTypes.FLOAT,
       allowNull: false,
     },
+    brand: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     stock: {
       type: DataTypes.INTEGER,
       allowNull: false,
