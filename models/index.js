@@ -16,7 +16,8 @@ Product.belongsTo(Order, { onDelete: 'CASCADE', onUpdate: 'CASCADE' });
 User.hasMany(Order, { onDelete: 'CASCADE', onUpdate: 'CASCADE' });
 Order.belongsTo(User, { onDelete: 'CASCADE', onUpdate: 'CASCADE' });
 
-Product.hasMany(ImageUrl, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
+Product.hasMany(ImageUrl, { onDelete: 'CASCADE', onUpdate: 'CASCADE' });
+ImageUrl.belongsTo(Product, { onDelete: 'CASCADE', onUpdate: 'CASCADE' });
 
 
 export { Role, User, Product, Order, ImageUrl};

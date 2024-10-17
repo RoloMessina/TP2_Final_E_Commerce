@@ -1,4 +1,4 @@
-import { Product } from "../models/index.js";
+import { Product} from "../models/index.js";
 
 // Funcion que verificia si el usuario es administrador
 const isAdmin = (user) => {
