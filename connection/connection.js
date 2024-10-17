@@ -1,7 +1,7 @@
 import { Sequelize } from "sequelize";
 
-const connection = new Sequelize("E_commerce", "sa", "1029384756", {
-  host: "PCEMA\\SQLEXPRESS",
+const connection = new Sequelize("E_Commerce", "sa", "RoloDataBase", {
+  host: "ROLO-PC\\SQLEXPRESS",
   dialect: "mssql",
   port: 1433, // Puerto predeterminado para SQL Server
   dialectOptions: {
