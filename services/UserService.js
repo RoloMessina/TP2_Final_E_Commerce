@@ -15,11 +15,12 @@ class UserService {
   getUserByIdService = (id) => {
     return "get user by id service";
   };
-  createUserService = async (userData) => {
+  async createUserService(userData) {
     try {
-      const data = await User.create(userData);
-      return data;
+      const user = await User.create(userData);
+      return user;
     } catch (error) {
+      console.error("Error creating user:", error);
       throw error;
     }
   };

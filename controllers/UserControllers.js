@@ -20,8 +20,8 @@ class UserControllers {
   };
   createUser = async (req, res) => {
     try {
-      const { name, pass, mail, RoleId } = req.body;
-      const user = await this.userService.createUserService({ name, pass, mail, RoleId });
+      const { name, lastname, dni, mail, pass, dateOfBirth, RoleId, address, city, state } = req.body;
+      const user = await this.userService.createUserService({ name, lastname, dni, mail, pass, dateOfBirth, RoleId, address, city, state });
       // console.log(`🚀 ~ UserControllers ~ createUser= ~ user:`, user);
       res.status(200).send({ success: true, message: user });
     } catch (error) {
