@@ -34,7 +34,7 @@ User.init(
     },
     RoleId: {
       type: DataTypes.INTEGER,
-      defaultValue: 2,
+      defaultValue: 12,
     },
     address: {
       type: DataTypes.STRING,
