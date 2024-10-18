@@ -1,9 +1,6 @@
 import { Product} from "../models/index.js";
 
-// Funcion que verificia si el usuario es administrador
-const isAdmin = (user) => {
-  return user.RoleId === 1;
-};
+
 
 // crear nuevo producto
 export const createProduct = async (productData, user) => {
@@ -78,4 +75,9 @@ export const deleteProduct = async (id, user) => {
     console.error("Error deleting product:", error);
     throw error;
   }
+};
+
+// Funcion que verificia si el usuario es administrador
+const isAdmin = (user) => {
+  return user.RoleId === 1;
 };
