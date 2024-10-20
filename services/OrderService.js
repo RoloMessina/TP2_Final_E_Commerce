@@ -1,8 +1,7 @@
 import { Order, User } from "../models/index.js";
-import { Sequelize } from "sequelize";
 
 class OrderService {
-  // Create a new order
+  // Crear una nueva orden
   async createOrder(orderData) {
     try {
       const order = await Order.create(orderData);
@@ -13,7 +12,7 @@ class OrderService {
     }
   }
 
-  // Get all orders
+  // Obtener todas las órdenes
   async getAllOrders() {
     try {
       const orders = await Order.findAll();
@@ -24,7 +23,7 @@ class OrderService {
     }
   }
 
-  // Get an order by ID
+  // Obtener una orden por ID
   async getOrderById(id) {
     try {
       const order = await Order.findByPk(id);
@@ -38,7 +37,7 @@ class OrderService {
     }
   }
 
-  // Update an order by ID
+  // Actualizar una orden por ID
   async updateOrder(id, orderData) {
     try {
       const order = await Order.findByPk(id);
@@ -53,7 +52,7 @@ class OrderService {
     }
   }
 
-  // Delete an order by ID
+  // Eliminar una orden por ID
   async deleteOrder(id) {
     try {
       const order = await Order.findByPk(id);
@@ -61,29 +60,9 @@ class OrderService {
         throw new Error("Order not found");
       }
       await order.destroy();
-      return order;
+      return { success: true, message: "Order deleted successfully" };
     } catch (error) {
       console.error("Error deleting order:", error);
-      throw error;
-    }
-  }
-
-  // Get the best customer
-  async getBestCustomer() {
-    try {
-      const bestCustomer = await Order.findAll({
-        attributes: [
-          "UserId",
-          [Sequelize.fn("COUNT", Sequelize.col("UserId")), "totalOrders"],
-        ],
-        group: ["UserId"],
-        include: [{ model: User, attributes: ["name", "lastname"] }],
-        order: [[Sequelize.literal("totalOrders"), "DESC"]],
-        limit: 1,
-      });
-      return bestCustomer;
-    } catch (error) {
-      console.error("Error fetching best customer:", error);
       throw error;
     }
   }

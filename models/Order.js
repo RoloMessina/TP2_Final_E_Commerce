@@ -10,8 +10,8 @@ Order.init(
       allowNull: false,
     },
     products: {
-        type: DataTypes.STRING, 
-        allowNull: false,
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     delivery_address: {
       type: DataTypes.STRING,
@@ -32,6 +32,11 @@ Order.init(
     totalprice: {
       type: DataTypes.FLOAT,
       allowNull: false,
+    },
+    status: {
+      type: DataTypes.ENUM('PagoPendiente', 'Confirmado', 'Preparado', 'Enviado'),
+      allowNull: false,
+      defaultValue: 'PagoPendiente',
     },
   },
   {

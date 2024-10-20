@@ -1,11 +1,9 @@
 import OrderService from "../services/orderService.js";
-import UserService from "../services/userService.js";
 
 class OrderController {
   orderService = new OrderService();
-  userService = new UserService();
 
-  // Create a new order
+  // Crear una nueva orden
   createOrder = async (req, res) => {
     try {
       const order = await this.orderService.createOrder(req.body);
@@ -18,7 +16,7 @@ class OrderController {
     }
   };
 
-  // Get all orders
+  // Obtener todas las órdenes
   getAllOrders = async (req, res) => {
     try {
       const orders = await this.orderService.getAllOrders();
@@ -31,7 +29,7 @@ class OrderController {
     }
   };
 
-  // Get an order by ID
+  // Obtener una orden por ID
   getOrderById = async (req, res) => {
     try {
       const order = await this.orderService.getOrderById(req.params.id);
@@ -44,7 +42,7 @@ class OrderController {
     }
   };
 
-  // Update an order by ID
+  // Actualizar una orden por ID
   updateOrder = async (req, res) => {
     try {
       const order = await this.orderService.updateOrder(req.params.id, req.body);
@@ -57,7 +55,7 @@ class OrderController {
     }
   };
 
-  // Delete an order by ID
+  // Eliminar una orden por ID
   deleteOrder = async (req, res) => {
     try {
       const order = await this.orderService.deleteOrder(req.params.id);
@@ -69,18 +67,6 @@ class OrderController {
       });
     }
   };
-
-  // Buscar mejor cliente
-  getBestCustomer = async (req, res)=> {
-    try {
-      const bestCustomer = await OrderService.findBestCustomer();
-      res.status(200).json(bestCustomer);
-    } catch (error) {
-      res.status(500).json({ error: `Error finding best customer: ${error.message}` });
-    }
-  }
-
-
 }
 
 export default OrderController;

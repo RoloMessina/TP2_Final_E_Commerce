@@ -1,12 +1,11 @@
 import { Router } from "express";
-import OrderController from "../controllers/OrderController.js";
+import OrderController from "../controllers/orderController.js";
 
 const orderController = new OrderController();
 
 const orderRoutes = Router();
 
 orderRoutes.get("/", orderController.getAllOrders);
-orderRoutes.get('/best-customer', orderController.getBestCustomer);
 orderRoutes.get("/:id", orderController.getOrderById);
 orderRoutes.post("/", orderController.createOrder);
 orderRoutes.put("/:id", orderController.updateOrder);
