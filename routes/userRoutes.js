@@ -10,5 +10,6 @@ userRoutes.get("/:id", userControllers.getUserById);
 userRoutes.post("/", userControllers.createUser);
 userRoutes.put("/:id", userControllers.updateUser);
 userRoutes.delete("/:id", userControllers.deleteUser);
+userRoutes.get("/best-customer", userControllers.getBestCustomer); // Ruta para obtener el mejor comprador
 
 export default userRoutes;

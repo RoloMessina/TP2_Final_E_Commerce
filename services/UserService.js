@@ -61,6 +61,19 @@ class UserService {
       throw error;
     }
   }
+
+  getBestCustomer = async (req, res) => {
+    try {
+      const customer = await this.userService.getBestCustomer();
+      res.status(200).send({ success: true, message: customer });
+    } catch (error) {
+      res.status(400).send({
+        success: false,
+        message: error.message,
+      });
+    }
+  };
+
 }
 
 export default UserService;

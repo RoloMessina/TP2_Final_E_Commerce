@@ -80,6 +80,57 @@ class ProductService {
       throw new Error("Failed to delete product");
     }
   }
+
+  //  Obtener el producto más vendido
+  async getBestSellingProduct() {
+    try {
+      const bestSellingProduct = await Order.findAll({
+        attributes: [
+          'products',
+          [sequelize.fn('SUM', sequelize.col('quantity')), 'totalQuantity']
+        ],
+        group: ['ProductId'],
+        order: [[sequelize.fn('SUM', sequelize.col('quantity')), 'DESC']],
+        limit: 1,
+        include: [{ model: Product, attributes: ['id', 'name', 'price', 'stock'] }]
+      });
+
+      if (bestSellingProduct.length === 0) {
+        throw new Error("No products found");
+      }
+
+      return bestSellingProduct[0];
+    } catch (error) {
+      console.error("Error fetching best selling product:", error);
+      throw error;
+    }
+  }
+
+    // Obtener el producto menos vendido
+  async getLeastSellingProduct() {
+    try {
+      const leastSellingProduct = await Order.findAll({
+        attributes: [
+          'products',
+          [sequelize.fn('SUM', sequelize.col('quantity')), 'totalQuantity']
+        ],
+        group: ['ProductId'],
+        order: [[sequelize.fn('SUM', sequelize.col('quantity')), 'ASC']],
+        limit: 1,
+        include: [{ model: Product, attributes: ['id', 'name', 'price', 'stock'] }]
+      });
+
+      if (leastSellingProduct.length === 0) {
+        throw new Error("No products found");
+      }
+
+      return leastSellingProduct[0];
+    } catch (error) {
+      console.error("Error fetching least selling product:", error);
+      throw error;
+    }
+  }
+
 }
 
 export default ProductService;

@@ -69,6 +69,31 @@ class ProductController {
       });
     }
   };
+
+  getBestSellingProduct = async (req, res) => {
+    try {
+      const product = await this.productService.getBestSellingProduct();
+      res.status(200).send({ success: true, message: product });
+    } catch (error) {
+      res.status(400).send({
+        success: false,
+        message: error.message,
+      });
+    }
+  };
+
+  getLeastSellingProduct = async (req, res) => {
+    try {
+      const product = await this.productService.getLeastSellingProduct();
+      res.status(200).send({ success: true, message: product });
+    } catch (error) {
+      res.status(400).send({
+        success: false,
+        message: error.message,
+      });
+    }
+  };
+
 }
 
 export default ProductController;

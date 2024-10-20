@@ -1,13 +1,15 @@
 import { Router } from "express";
 import ProductController from "../controllers/productController.js";
-const productControllerInstance = new ProductController();
+const productController = new ProductController();
 
 const productRoutes = Router();
 
-productRoutes.get("/", productControllerInstance.getAllProducts);
-productRoutes.get("/:id", productControllerInstance.getProductById);
-productRoutes.post("/", productControllerInstance.createProduct); // Ruta para crear un producto
-productRoutes.put("/:id", productControllerInstance.updateProduct);
-productRoutes.delete("/:id", productControllerInstance.deleteProduct);
+productRoutes.get("/", productController.getAllProducts);
+productRoutes.get("/:id", productController.getProductById);
+productRoutes.post("/", productController.createProduct); // Ruta para crear un producto
+productRoutes.put("/:id", productController.updateProduct);
+productRoutes.delete("/:id", productController.deleteProduct);
+productRoutes.get("/best-selling", productController.getBestSellingProduct); // Ruta para obtener el producto más vendido
+productRoutes.get("/least-selling", productController.getLeastSellingProduct); // Ruta para obtener el producto menos vendido
 
 export default productRoutes;

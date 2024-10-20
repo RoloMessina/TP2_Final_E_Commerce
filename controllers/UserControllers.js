@@ -63,6 +63,35 @@ class UserControllers {
       });
     }
   };
+
+  // Obtener el mejor comprador
+  async getBestCustomer() {
+    try {
+      const bestCustomer = await Order.findAll({
+        attributes: [
+          'UserId',
+          [sequelize.fn('COUNT', sequelize.col('Order.id')), 'orderCount'],
+          [sequelize.fn('SUM', sequelize.col('totalprice')), 'totalSpent']
+        ],
+        group: ['UserId'],
+        order: [
+          [sequelize.fn('SUM', sequelize.col('totalprice')), 'DESC'],
+          [sequelize.fn('COUNT', sequelize.col('Order.id')), 'DESC']
+        ],
+        limit: 1,
+        include: [{ model: User, attributes: ['id', 'name', 'lastname', 'mail'] }]
+      });
+
+      if (bestCustomer.length === 0) {
+        throw new Error("No customers found");
+      }
+
+      return bestCustomer[0];
+    } catch (error) {
+      console.error("Error fetching best customer:", error);
+      throw error;
+    }
+  };
 }
 
 export default UserControllers;
