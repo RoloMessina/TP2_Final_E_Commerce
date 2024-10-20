@@ -3,6 +3,7 @@ import userRoutes from "./userRoutes.js";
 import roleRoutes from "./roleRoutes.js"; // Importar las rutas de roles
 import orderRoutes from "./orderRoutes.js";
 import productRoutes from "./productRoutes.js"; // Importar las rutas de productos
+import imageUrlRoutes from "./imageUrlRoutes.js"; // Importar las rutas de ImageUrl
 import { logger } from "../midlewares/logger.js"; // Asegúrate de que esta ruta sea correcta
  
 const routes = Router();
@@ -13,5 +14,6 @@ routes.use("/users", userRoutes);  // Agregar la ruta de usuarios
 routes.use("/roles", roleRoutes); // Agregar la ruta de roles
 routes.use("/orders", orderRoutes); // Agregar la ruta de ordenes
 routes.use("/products", productRoutes); // Usar las rutas de productos
+routes.use("/image-urls", imageUrlRoutes); // Usar las rutas de ImageUrl
 
 export default routes;
