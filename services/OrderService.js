@@ -68,42 +68,23 @@ class OrderService {
     }
   }
 
-  async findBestCustomer() {
+  // Get the best customer
+  async getBestCustomer() {
     try {
-      const orders = await Order.findAll({
-        include: {
-          model: User,
-          attributes: ['id', 'name', 'lastname', 'mail']
-        }
+      const bestCustomer = await Order.findAll({
+        attributes: [
+          "UserId",
+          [Sequelize.fn("COUNT", Sequelize.col("UserId")), "totalOrders"],
+        ],
+        group: ["UserId"],
+        include: [{ model: User, attributes: ["name", "lastname"] }],
+        order: [[Sequelize.literal("totalOrders"), "DESC"]],
+        limit: 1,
       });
-
-      const customerTotals = {};
-
-      orders.forEach(order => {
-        const { UserId, totalprice, User } = order;
-        if (!customerTotals[UserId]) {
-          customerTotals[UserId] = {
-            total: 0,
-            user: User
-          };
-        }
-        customerTotals[UserId].total += totalprice;
-      });
-
-      let bestCustomer = null;
-      let highestTotal = 0;
-
-      for (const userId in customerTotals) {
-        if (customerTotals[userId].total > highestTotal) {
-          highestTotal = customerTotals[userId].total;
-          bestCustomer = customerTotals[userId].user;
-        }
-      }
-
       return bestCustomer;
     } catch (error) {
-      console.error("Error finding best customer:", error);
-      throw new Error(`Error finding best customer: ${error.message}`);
+      console.error("Error fetching best customer:", error);
+      throw error;
     }
   }
 }

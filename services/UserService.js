@@ -35,12 +35,32 @@ class UserService {
       throw error;
     }
   };
-  updateUserService = (id) => {
-    return "update user service";
-  };
-  deleteUserService = (id) => {
-    return "delete user service";
-  };
+  async updateUserService(id, userData) {
+    try {
+      const user = await User.findByPk(id);
+      if (!user) {
+        throw new Error("User not found");
+      }
+      await user.update(userData);
+      return user;
+    } catch (error) {
+      console.error("Error updating user:", error);
+      throw error;
+    }
+  }
+  async deleteUserService(id) {
+    try {
+      const user = await User.findByPk(id);
+      if (!user) {
+        throw new Error("User not found");
+      }
+      await user.destroy();
+      return { success: true, message: "User deleted successfully" };
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      throw error;
+    }
+  }
 }
 
 export default UserService;
