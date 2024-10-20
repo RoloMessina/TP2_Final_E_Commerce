@@ -5,19 +5,10 @@ class OrderController {
   orderService = new OrderService();
   userService = new UserService();
 
-  // funcion que verifica si el usuario es un administrador
-  isAdmin = (user) => {
-    return user.RoleId === 1;
-  };
-
-  // crear nueva orden
+  // Create a new order
   createOrder = async (req, res) => {
     try {
-      const user = await this.userService.getUserByIdService(req.user.id);
-      if (!this.isAdmin(user)) {
-        return res.status(403).send({ success: false, message: "You do not have permission to create orders" });
-      }
-      const order = await this.orderService.createOrder(req.body, user);
+      const order = await this.orderService.createOrder(req.body);
       res.status(200).send({ success: true, message: order });
     } catch (error) {
       res.status(400).send({
@@ -27,7 +18,7 @@ class OrderController {
     }
   };
 
-  // obtener todas las oredenes
+  // Get all orders
   getAllOrders = async (req, res) => {
     try {
       const orders = await this.orderService.getAllOrders();
@@ -40,7 +31,7 @@ class OrderController {
     }
   };
 
-  // obtener orden por ID
+  // Get an order by ID
   getOrderById = async (req, res) => {
     try {
       const order = await this.orderService.getOrderById(req.params.id);
@@ -53,14 +44,10 @@ class OrderController {
     }
   };
 
-  // actualizar orden por ID
+  // Update an order by ID
   updateOrder = async (req, res) => {
     try {
-      const user = await this.userService.getUserByIdService(req.user.id);
-      if (!this.isAdmin(user)) {
-        return res.status(403).send({ success: false, message: "You do not have permission to update orders" });
-      }
-      const order = await this.orderService.updateOrder(req.params.id, req.body, user);
+      const order = await this.orderService.updateOrder(req.params.id, req.body);
       res.status(200).send({ success: true, message: order });
     } catch (error) {
       res.status(400).send({
@@ -70,15 +57,24 @@ class OrderController {
     }
   };
 
-  // Eliminar Orden Por ID
+  // Delete an order by ID
   deleteOrder = async (req, res) => {
     try {
-      const user = await this.userService.getUserByIdService(req.user.id);
-      if (!this.isAdmin(user)) {
-        return res.status(403).send({ success: false, message: "You do not have permission to delete orders" });
-      }
-      const order = await this.orderService.deleteOrder(req.params.id, user);
+      const order = await this.orderService.deleteOrder(req.params.id);
       res.status(200).send({ success: true, message: order });
+    } catch (error) {
+      res.status(400).send({
+        success: false,
+        message: error.message,
+      });
+    }
+  };
+
+  // Buscar mejores clientes
+  buscarMejoresClientes = async (req, res) => {
+    try {
+      const mejoresClientes = await this.orderService.buscarMejoresClientes();
+      res.status(200).send({ success: true, message: mejoresClientes });
     } catch (error) {
       res.status(400).send({
         success: false,
