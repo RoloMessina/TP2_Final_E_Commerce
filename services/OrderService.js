@@ -66,6 +66,60 @@ class OrderService {
       throw error;
     }
   }
+  
+  // Obtener órdenes pendientes
+  async getPendingOrders() {
+    try {
+      const pendingOrders = await Order.findAll({
+        where: { status: 'PagoPendiente' }
+      });
+      const count = pendingOrders.length;
+      return { count, orders: pendingOrders };
+    } catch (error) {
+      console.error("Error fetching pending orders:", error);
+      throw error;
+    }
+  }
+
+  // Obtener órdenes confirmadas
+  async getConfirmedOrders() {
+    try {
+      const confirmedOrders = await Order.findAll({
+        where: { status: 'Confirmado' }
+      });
+      const count = confirmedOrders.length;
+      return { count, orders: confirmedOrders };
+    } catch (error) {
+      console.error("Error fetching confirmed orders:", error);
+      throw error;
+    }
+  }
+// Obtener órdenes preparadas
+  async getPreparedOrders() {
+    try {
+      const confirmedOrders = await Order.findAll({
+        where: { status: 'Preparado' }
+      });
+      const count = confirmedOrders.length;
+      return { count, orders: confirmedOrders };
+    } catch (error) {
+      console.error("Error fetching confirmed orders:", error);
+      throw error;
+    }
+  }
+  // Obtener órdene enviadas
+  async getSentOrders() {
+    try {
+      const confirmedOrders = await Order.findAll({
+        where: { status: 'Enviado' }
+      });
+      const count = confirmedOrders.length;
+      return { count, orders: confirmedOrders };
+    } catch (error) {
+      console.error("Error fetching confirmed orders:", error);
+      throw error;
+    }
+  } 
 
   // Cambiar el estado de la orden a Confirmado
   async confirmOrder(id) {
@@ -111,6 +165,8 @@ class OrderService {
       throw error;
     }
   }
+
+
 }
 
 export default OrderService;
