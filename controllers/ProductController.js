@@ -1,5 +1,5 @@
-import ProductService from "../services/ProductService.js";
-import UserService from "../services/UserService.js";
+import ProductService from "../services/productService.js";
+import UserService from "../services/userService.js";
 
 class ProductController {
   productService = new ProductService();

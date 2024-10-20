@@ -1,5 +1,5 @@
-import OrderService from "../services/OrderService.js";
-import UserService from "../services/UserService.js";
+import OrderService from "../services/orderService.js";
+import UserService from "../services/userService.js";
 
 class OrderController {
   orderService = new OrderService();
@@ -70,18 +70,17 @@ class OrderController {
     }
   };
 
-  // Buscar mejores clientes
-  buscarMejoresClientes = async (req, res) => {
+  // Buscar mejor cliente
+  getBestCustomer = async (req, res)=> {
     try {
-      const mejoresClientes = await this.orderService.buscarMejoresClientes();
-      res.status(200).send({ success: true, message: mejoresClientes });
+      const bestCustomer = await OrderService.findBestCustomer();
+      res.status(200).json(bestCustomer);
     } catch (error) {
-      res.status(400).send({
-        success: false,
-        message: error.message,
-      });
+      res.status(500).json({ error: `Error finding best customer: ${error.message}` });
     }
-  };
+  }
+
+
 }
 
 export default OrderController;

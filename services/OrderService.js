@@ -68,27 +68,42 @@ class OrderService {
     }
   }
 
-  // Buscar Mejores Clientes
-  async buscarMejoresClientes() {
+  async findBestCustomer() {
     try {
-      const mejoresClientes = await Order.findAll({
-        attributes: [
-          'UserId',
-          [Sequelize.fn('COUNT', Sequelize.col('UserId')), 'totalCompras']
-        ],
-        group: ['UserId'],
-        order: [[Sequelize.literal('totalCompras'), 'DESC']],
-        limit: 10, // Limitar a los 10 mejores clientes
-        include: [{
+      const orders = await Order.findAll({
+        include: {
           model: User,
-          attributes: ['name', 'lastname', 'mail']
-        }]
+          attributes: ['id', 'name', 'lastname', 'mail']
+        }
       });
 
-      return mejoresClientes;
+      const customerTotals = {};
+
+      orders.forEach(order => {
+        const { UserId, totalprice, User } = order;
+        if (!customerTotals[UserId]) {
+          customerTotals[UserId] = {
+            total: 0,
+            user: User
+          };
+        }
+        customerTotals[UserId].total += totalprice;
+      });
+
+      let bestCustomer = null;
+      let highestTotal = 0;
+
+      for (const userId in customerTotals) {
+        if (customerTotals[userId].total > highestTotal) {
+          highestTotal = customerTotals[userId].total;
+          bestCustomer = customerTotals[userId].user;
+        }
+      }
+
+      return bestCustomer;
     } catch (error) {
-      console.error("Error fetching best clients:", error);
-      throw error;
+      console.error("Error finding best customer:", error);
+      throw new Error(`Error finding best customer: ${error.message}`);
     }
   }
 }

@@ -1,14 +1,14 @@
 import { Router } from "express";
-import RoleController from "../controllers/RoleController.js";
+import RoleController from "../controllers/roleController.js";
 
-const roleController = new RoleController();
+const roleControllerInstance = new RoleController();
 
 const roleRoutes = Router();
 
-roleRoutes.get("/", roleController.getAllRoles);
-roleRoutes.get("/:id", roleController.getRoleById);
-roleRoutes.post("/", roleController.createRole);
-roleRoutes.put("/:id", roleController.updateRole);
-roleRoutes.delete("/:id", roleController.deleteRole);
+roleRoutes.get("/", roleControllerInstance.getAllRoles);
+roleRoutes.get("/:id", roleControllerInstance.getRoleById);
+roleRoutes.post("/", roleControllerInstance.createRole);
+roleRoutes.put("/:id", roleControllerInstance.updateRole);
+roleRoutes.delete("/:id", roleControllerInstance.deleteRole);
 
 export default roleRoutes;

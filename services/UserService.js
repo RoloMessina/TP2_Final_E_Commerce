@@ -12,8 +12,19 @@ class UserService {
       throw error;
     }
   };
-  getUserByIdService = (id) => {
-    return "get user by id service";
+  getUserByIdService = async (id) => {
+    try {
+      const user = await User.findByPk(id, {
+        attributes: ['id', 'name', 'lastname', 'mail', 'dni', 'dateOfBirth', 'address', 'city', 'state', 'RoleId']
+      });
+      if (!user) {
+        throw new Error('User not found');
+      }
+      return user;
+    } catch (error) {
+      console.error("Error fetching user by ID:", error);
+      throw error;
+    }
   };
   async createUserService(userData) {
     try {

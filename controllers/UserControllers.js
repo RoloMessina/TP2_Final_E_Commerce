@@ -1,4 +1,4 @@
-import UserService from "../services/UserService.js";
+import UserService from "../services/userService.js";
 
 class UserControllers {
   userService = new UserService();
@@ -14,15 +14,23 @@ class UserControllers {
       });
     }
   };
-  getUserById = (req, res) => {
-    const user = this.userService.getUserByIdService();
-    res.status(200).send(user);
+
+  getUserById = async (req, res) => {
+    try {
+      const user = await this.userService.getUserByIdService(req.params.id);
+      res.status(200).send(user);
+    } catch (error) {
+      res.status(404).send({
+        success: false,
+        message: error.message,
+      });
+    }
   };
+
   createUser = async (req, res) => {
     try {
       const { name, lastname, dni, mail, pass, dateOfBirth, RoleId, address, city, state } = req.body;
       const user = await this.userService.createUserService({ name, lastname, dni, mail, pass, dateOfBirth, RoleId, address, city, state });
-      // console.log(`🚀 ~ UserControllers ~ createUser= ~ user:`, user);
       res.status(200).send({ success: true, message: user });
     } catch (error) {
       res.status(400).send({
@@ -31,13 +39,29 @@ class UserControllers {
       });
     }
   };
-  updateUser = (req, res) => {
-    const user = this.userService.updateUserService();
-    res.status(200).send(user);
+
+  updateUser = async (req, res) => {
+    try {
+      const user = await this.userService.updateUserService(req.params.id, req.body);
+      res.status(200).send(user);
+    } catch (error) {
+      res.status(400).send({
+        success: false,
+        message: error.message,
+      });
+    }
   };
-  deleteUser = (req, res) => {
-    const user = this.userService.deleteUserService();
-    res.status(200).send(user);
+
+  deleteUser = async (req, res) => {
+    try {
+      const user = await this.userService.deleteUserService(req.params.id);
+      res.status(200).send(user);
+    } catch (error) {
+      res.status(400).send({
+        success: false,
+        message: error.message,
+      });
+    }
   };
 }
 

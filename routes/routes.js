@@ -9,7 +9,7 @@ const routes = Router();
 
 routes.use(logger); // Aplicar el middleware a todas las rutas
 
-routes.use("/user", userRoutes);  // Agregar la ruta de usuarios
+routes.use("/users", userRoutes);  // Agregar la ruta de usuarios
 routes.use("/roles", roleRoutes); // Agregar la ruta de roles
 routes.use("/orders", orderRoutes); // Agregar la ruta de ordenes
 routes.use("/products", productRoutes); // Usar las rutas de productos
