@@ -1,67 +1,78 @@
-import { Role } from "../models/index.js";
+import { User, Role, Cart } from "../models/index.js";
 
-class RoleService {
-  // Get all roles
-  async getAllRolesService() {
+class UserService {
+  getAllUsersService = async () => {
     try {
-      const roles = await Role.findAll();
-      return roles;
+      const data = await User.findAll({
+        attributes: ["name"],
+        include: Role,
+      });
+      return data;
     } catch (error) {
       throw error;
     }
-  }
+  };
 
-  // Get a role by ID
-  async getRoleByIdService(id) {
+  getUserByIdService = async (id) => {
     try {
-      const role = await Role.findByPk(id);
-      if (!role) {
-        throw new Error("Role not found");
+      const user = await User.findByPk(id, {
+        attributes: ['id', 'name', 'lastname', 'mail', 'dni', 'dateOfBirth', 'address', 'city', 'state', 'RoleId']
+      });
+      if (!user) {
+        throw new Error('User not found');
       }
-      return role;
+      return user;
     } catch (error) {
+      console.error("Error fetching user by ID:", error);
       throw error;
     }
-  }
+  };
 
-  // Create a new role
-  async createRoleService(roleData) {
+  async createUserService(userData) {
+    const transaction = await connection.transaction();
     try {
-      const role = await Role.create(roleData);
-      return role;
+      const user = await User.create(userData, { transaction });
+      await Cart.create({
+        UserId: user.id,
+        delivery_address: userData.address,
+        email: userData.mail,
+      }, { transaction });
+      await transaction.commit();
+      return user;
     } catch (error) {
-      console.error("Error creating role:", error);
+      await transaction.rollback();
+      console.error("Error creating user:", error);
       throw error;
     }
-  }
+  };
 
-  // Update a role by ID
-  async updateRoleService(id, roleData) {
+  async updateUserService(id, userData) {
     try {
-      const role = await Role.findByPk(id);
-      if (!role) {
-        throw new Error("Role not found");
+      const user = await User.findByPk(id);
+      if (!user) {
+        throw new Error("User not found");
       }
-      await role.update(roleData);
-      return role;
+      await user.update(userData);
+      return user;
     } catch (error) {
+      console.error("Error updating user:", error);
       throw error;
     }
   }
 
-  // Delete a role by ID
-  async deleteRoleService(id) {
+  async deleteUserService(id) {
     try {
-      const role = await Role.findByPk(id);
-      if (!role) {
-        throw new Error("Role not found");
+      const user = await User.findByPk(id);
+      if (!user) {
+        throw new Error("User not found");
       }
-      await role.destroy();
-      return role;
+      await user.destroy();
+      return { success: true, message: "User deleted successfully" };
     } catch (error) {
+      console.error("Error deleting user:", error);
       throw error;
     }
   }
 }
 
-export default RoleService;
+export default UserService;

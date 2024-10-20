@@ -4,6 +4,7 @@ import roleRoutes from "./roleRoutes.js";
 import orderRoutes from "./orderRoutes.js";
 import productRoutes from "./productRoutes.js";
 import imageUrlRoutes from "./imageUrlRoutes.js";
+import cartRoutes from "./cartRoutes.js"; // Importar las rutas de Cart
 import logger from "../middlewares/logger.js"; // Asegúrate de que esta ruta sea correcta
 
 const routes = Router();
@@ -19,5 +20,6 @@ routes.use("/roles", roleRoutes);
 routes.use("/orders", orderRoutes);
 routes.use("/products", productRoutes);
 routes.use("/image-urls", imageUrlRoutes);
+routes.use("/carts", cartRoutes); // Usar las rutas de Cart
 
 export default routes;

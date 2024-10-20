@@ -35,6 +35,7 @@ app.use((err, req, res, next) => {
   });
 });
 
+// Sincronizar los modelos con la base de datos
 await connection.sync({ force: false });
 
 app.listen(8000, () => {
