@@ -66,6 +66,51 @@ class OrderService {
       throw error;
     }
   }
+
+  // Cambiar el estado de la orden a Confirmado
+  async confirmOrder(id) {
+    try {
+      const order = await Order.findByPk(id);
+      if (!order) {
+        throw new Error("Order not found");
+      }
+      await order.update({ status: 'Confirmado' });
+      return order;
+    } catch (error) {
+      console.error("Error confirming order:", error);
+      throw error;
+    }
+  }
+
+  // Cambiar el estado de la orden a Preparado
+  async prepareOrder(id) {
+    try {
+      const order = await Order.findByPk(id);
+      if (!order) {
+        throw new Error("Order not found");
+      }
+      await order.update({ status: 'Preparado' });
+      return order;
+    } catch (error) {
+      console.error("Error preparing order:", error);
+      throw error;
+    }
+  }
+
+  // Cambiar el estado de la orden a Enviado
+  async sendOrder(id) {
+    try {
+      const order = await Order.findByPk(id);
+      if (!order) {
+        throw new Error("Order not found");
+      }
+      await order.update({ status: 'Enviado' });
+      return order;
+    } catch (error) {
+      console.error("Error sending order:", error);
+      throw error;
+    }
+  }
 }
 
 export default OrderService;

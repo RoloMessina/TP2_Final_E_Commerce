@@ -67,6 +67,45 @@ class OrderController {
       });
     }
   };
+
+  // Confirmar una orden
+  confirmOrder = async (req, res) => {
+    try {
+      const order = await this.orderService.confirmOrder(req.params.id);
+      res.status(200).send({ success: true, message: order });
+    } catch (error) {
+      res.status(400).send({
+        success: false,
+        message: error.message,
+      });
+    }
+  };
+
+  // Preparar una orden
+  prepareOrder = async (req, res) => {
+    try {
+      const order = await this.orderService.prepareOrder(req.params.id);
+      res.status(200).send({ success: true, message: order });
+    } catch (error) {
+      res.status(400).send({
+        success: false,
+        message: error.message,
+      });
+    }
+  };
+
+  // Enviar una orden
+  sendOrder = async (req, res) => {
+    try {
+      const order = await this.orderService.sendOrder(req.params.id);
+      res.status(200).send({ success: true, message: order });
+    } catch (error) {
+      res.status(400).send({
+        success: false,
+        message: error.message,
+      });
+    }
+  };
 }
 
 export default OrderController;
