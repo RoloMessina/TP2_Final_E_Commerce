@@ -1,9 +1,6 @@
 import express from "express";
 import routes from "./routes/routes.js";
 import connection from "./connection/connection.js";
-import tedious from  "tedious"; 
-// import User from "./models/User.js";
-// import Role from "./models/Role.js";
 
 const app = express();
 
