@@ -1,19 +1,23 @@
 import { Router } from "express";
 import userRoutes from "./userRoutes.js";
-import roleRoutes from "./roleRoutes.js"; // Importar las rutas de roles
+import roleRoutes from "./roleRoutes.js";
 import orderRoutes from "./orderRoutes.js";
-import productRoutes from "./productRoutes.js"; // Importar las rutas de productos
-import imageUrlRoutes from "./imageUrlRoutes.js"; // Importar las rutas de ImageUrl
-import { logger } from "../midlewares/logger.js"; // Asegúrate de que esta ruta sea correcta
- 
+import productRoutes from "./productRoutes.js";
+import imageUrlRoutes from "./imageUrlRoutes.js";
+import logger from "../middlewares/logger.js"; // Asegúrate de que esta ruta sea correcta
+
 const routes = Router();
 
-routes.use(logger); // Aplicar el middleware a todas las rutas
+// Middleware para usar logger en todas las solicitudes entrantes
+routes.use((req, res, next) => {
+  logger.info(`Incoming request: ${req.method} ${req.url}`);
+  next();
+});
 
-routes.use("/users", userRoutes);  // Agregar la ruta de usuarios
-routes.use("/roles", roleRoutes); // Agregar la ruta de roles
-routes.use("/orders", orderRoutes); // Agregar la ruta de ordenes
-routes.use("/products", productRoutes); // Usar las rutas de productos
-routes.use("/image-urls", imageUrlRoutes); // Usar las rutas de ImageUrl
+routes.use("/users", userRoutes);
+routes.use("/roles", roleRoutes);
+routes.use("/orders", orderRoutes);
+routes.use("/products", productRoutes);
+routes.use("/image-urls", imageUrlRoutes);
 
 export default routes;
