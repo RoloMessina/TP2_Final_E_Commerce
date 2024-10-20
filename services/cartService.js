@@ -56,6 +56,59 @@ class CartService {
       throw error;
     }
   }
+
+  // Generar una orden de compra
+  async generateOrder(userId) {
+    const transaction = await connection.transaction();
+    try {
+      const cart = await Cart.findOne({
+        where: { UserId: userId },
+        include: [{ model: CartItem, include: [Product] }],
+        transaction,
+      });
+
+      if (!cart) {
+        throw new Error("Cart not found");
+      }
+
+      const orderItems = cart.CartItems.map(item => ({
+        ProductId: item.ProductId,
+        quantity: item.quantity,
+        price: item.Product.price,
+      }));
+
+      const totalprice = orderItems.reduce((total, item) => total + item.price * item.quantity, 0);
+
+      const order = await Order.create({
+        UserId: userId,
+        products: JSON.stringify(orderItems),
+        delivery_address: cart.delivery_address,
+        city: cart.city,
+        state: cart.state,
+        shipping: 0, // Puedes calcular el costo de envío aquí
+        totalprice,
+        status: 'PagoPendiente',
+      }, { transaction });
+
+      for (const item of cart.CartItems) {
+        const product = await Product.findByPk(item.ProductId, { transaction });
+        if (product.stock < item.quantity) {
+          throw new Error(`Not enough stock for product ${product.name}`);
+        }
+        product.stock -= item.quantity;
+        await product.save({ transaction });
+      }
+
+      await CartItem.destroy({ where: { CartId: cart.id }, transaction });
+      await transaction.commit();
+      return order;
+    } catch (error) {
+      await transaction.rollback();
+      console.error("Error generating order:", error);
+      throw error;
+    }
+  }
+
 }
 
 export default CartService;
