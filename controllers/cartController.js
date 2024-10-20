@@ -57,6 +57,20 @@ class CartController {
       });
     }
   };
+
+  generateOrder = async (req, res) => {
+    try {
+      const order = await this.cartService.generateOrder(req.params.userId);
+      res.status(200).send({ success: true, message: order });
+    } catch (error) {
+      res.status(400).send({
+        success: false,
+        message: error.message,
+      });
+    }
+  };
+
+
 }
 
 export default CartController;
