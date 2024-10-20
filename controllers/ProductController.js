@@ -8,12 +8,24 @@ class ProductController {
   // Create a new product
   createProduct = async (req, res) => {
     try {
+      if (!req.body.name || !req.body.price) {
+        return res.status(400).send({
+          success: false,
+          message: "Product name and price are required",
+          data: null,
+        });
+      }
       const product = await this.productService.createProduct(req.body);
-      res.status(200).send({ success: true, message: product });
+      res.status(201).send({
+        success: true,
+        message: "Product created successfully",
+        data: product,
+      });
     } catch (error) {
-      res.status(400).send({
+      res.status(500).send({
         success: false,
-        message: error.message,
+        message: "Failed to create product",
+        error: error.message,
       });
     }
   };
@@ -22,11 +34,16 @@ class ProductController {
   getAllProducts = async (req, res) => {
     try {
       const products = await this.productService.getAllProducts();
-      res.status(200).send({ success: true, message: products });
+      res.status(200).send({
+        success: true,
+        message: "Products fetched successfully",
+        data: products,
+      });
     } catch (error) {
-      res.status(400).send({
+      res.status(500).send({
         success: false,
-        message: error.message,
+        message: "Failed to fetch products",
+        error: error.message,
       });
     }
   };
@@ -35,11 +52,23 @@ class ProductController {
   getProductById = async (req, res) => {
     try {
       const product = await this.productService.getProductById(req.params.id);
-      res.status(200).send({ success: true, message: product });
+      if (!product) {
+        return res.status(404).send({
+          success: false,
+          message: "Product not found",
+          data: null,
+        });
+      }
+      res.status(200).send({
+        success: true,
+        message: "Product fetched successfully",
+        data: product,
+      });
     } catch (error) {
-      res.status(400).send({
+      res.status(500).send({
         success: false,
-        message: error.message,
+        message: "Failed to fetch product",
+        error: error.message,
       });
     }
   };
@@ -47,12 +76,31 @@ class ProductController {
   // Update a product by ID
   updateProduct = async (req, res) => {
     try {
+      if (!req.body.name && !req.body.price) {
+        return res.status(400).send({
+          success: false,
+          message: "Product name or price must be provided for update",
+          data: null,
+        });
+      }
       const product = await this.productService.updateProduct(req.params.id, req.body);
-      res.status(200).send({ success: true, message: product });
+      if (!product) {
+        return res.status(404).send({
+          success: false,
+          message: "Product not found",
+          data: null,
+        });
+      }
+      res.status(200).send({
+        success: true,
+        message: "Product updated successfully",
+        data: product,
+      });
     } catch (error) {
-      res.status(400).send({
+      res.status(500).send({
         success: false,
-        message: error.message,
+        message: "Failed to update product",
+        error: error.message,
       });
     }
   };
@@ -61,11 +109,23 @@ class ProductController {
   deleteProduct = async (req, res) => {
     try {
       const product = await this.productService.deleteProduct(req.params.id);
-      res.status(200).send({ success: true, message: product });
+      if (!product) {
+        return res.status(404).send({
+          success: false,
+          message: "Product not found",
+          data: null,
+        });
+      }
+      res.status(200).send({
+        success: true,
+        message: "Product deleted successfully",
+        data: product,
+      });
     } catch (error) {
-      res.status(400).send({
+      res.status(500).send({
         success: false,
-        message: error.message,
+        message: "Failed to delete product",
+        error: error.message,
       });
     }
   };
