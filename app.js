@@ -30,12 +30,13 @@ import routes from './routes/routes.js';
 import connection from './connection/connection.js';
 import tedious from 'tedious';
 import logger from './middlewares/logger.js'; // Importar el logger
+import cors from 'cors';
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use(cors());
 // Middleware para usar logger en todas las solicitudes entrantes
 app.use((req, res, next) => {
   logger.info(`Incoming request: ${req.method} ${req.url}`);
