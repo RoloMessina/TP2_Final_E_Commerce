@@ -1,10 +1,12 @@
 import express from 'express';
+import cors from 'cors';
 import routes from './routes/routes.js';
 import connection from './connection/connection.js';
 import logger from './middlewares/logger.js'; // Importar el logger
 
 const app = express();
 
+app.use(cors()); // Permitir solicitudes CORS
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -38,6 +40,8 @@ app.use((err, req, res, next) => {
 // Sincronizar los modelos con la base de datos
 await connection.sync({ force: false });
 
-app.listen(8000, () => {
-  logger.info('🚀 Server running on http://localhost:8000');
+const PORT = process.env.PORT || 8001;
+
+app.listen(PORT, () => {
+  logger.info(`🚀 Server running on http://localhost:${PORT}`);
 });
