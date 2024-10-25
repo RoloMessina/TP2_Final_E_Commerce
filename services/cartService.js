@@ -85,7 +85,7 @@ class CartService {
         delivery_address: cart.delivery_address,
         city: cart.city,
         state: cart.state,
-        shipping: 0, // Puedes calcular el costo de envío aquí
+        shipping: 0, // se calculara la orden de envio a futuro
         totalprice,
         status: 'PagoPendiente',
       }, { transaction });

@@ -165,7 +165,44 @@ class OrderService {
       throw error;
     }
   }
+  
+  // Obtener órdenes enviadas
+  async getSentOrders() {
+    try {
+      const sentOrders = await Order.findAll({
+        where: { status: 'Enviado' }
+      });
+      const count = sentOrders.length;
+      return { count, orders: sentOrders };
+    } catch (error) {
+      console.error("Error fetching sent orders:", error);
+      throw error;
+    }
+  }
 
+  async cancelOrder(id) {
+    try {
+      const order = await Order.findByPk(id);
+      if (!order) {
+        throw new Error("Order not found");
+      }
+
+      const products = JSON.parse(order.products);
+      for (const item of products) {
+        const product = await Product.findByPk(item.ProductId);
+        if (product) {
+          product.stock += item.quantity;
+          await product.save();
+        }
+      }
+
+      await order.update({ status: 'Cancelado' });
+      return order;
+    } catch (error) {
+      console.error("Error canceling order:", error);
+      throw error;
+    }
+  }
 
 }
 

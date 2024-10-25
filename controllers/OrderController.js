@@ -67,55 +67,6 @@ class OrderController {
       });
     }
   };
-   // Obtener órdenes pendientes
-   getPendingOrders = async (req, res) => {
-    try {
-      const { count, orders } = await this.orderService.getPendingOrders();
-      res.status(200).send({ success: true, count, orders });
-    } catch (error) {
-      res.status(400).send({
-        success: false,
-        message: error.message,
-      });
-    }
-  };
-
-  // Obtener órdenes confirmadas
-  getConfirmedOrders = async (req, res) => {
-    try {
-      const { count, orders } = await this.orderService.getConfirmedOrders();
-      res.status(200).send({ success: true, count, orders });
-    } catch (error) {
-      res.status(400).send({
-        success: false,
-        message: error.message,
-      });
-    }
-  };
-// Obtener órdenes preparadas
-  getPreparedOrders = async (req, res) => {
-    try {
-      const { count, orders } = await this.orderService.getPreparedOrders();
-      res.status(200).send({ success: true, count, orders });
-    } catch (error) {
-      res.status(400).send({
-        success: false,
-        message: error.message,
-      });
-    }
-  };
-// Obtener órdene enviadas
-  getSentOrders = async (req, res) => {
-    try {
-      const { count, orders } = await this.orderService.getSentOrders();
-      res.status(200).send({ success: true, count, orders });
-    } catch (error) {
-      res.status(400).send({
-        success: false,
-        message: error.message,
-      });
-    }
-  };
 
   // Confirmar una orden
   confirmOrder = async (req, res) => {
@@ -156,7 +107,70 @@ class OrderController {
     }
   };
 
- 
+  // Cancelar una orden
+  cancelOrder = async (req, res) => {
+    try {
+      const order = await this.orderService.cancelOrder(req.params.id);
+      res.status(200).send({ success: true, message: order });
+    } catch (error) {
+      res.status(400).send({
+        success: false,
+        message: error.message,
+      });
+    }
+  };
+
+  // Obtener órdenes confirmadas
+  getConfirmedOrders = async (req, res) => {
+    try {
+      const { count, orders } = await this.orderService.getConfirmedOrders();
+      res.status(200).send({ success: true, count, orders });
+    } catch (error) {
+      res.status(400).send({
+        success: false,
+        message: error.message,
+      });
+    }
+  };
+
+  // Obtener órdenes pendientes
+  getPendingOrders = async (req, res) => {
+    try {
+      const { count, orders } = await this.orderService.getPendingOrders();
+      res.status(200).send({ success: true, count, orders });
+    } catch (error) {
+      res.status(400).send({
+        success: false,
+        message: error.message,
+      });
+    }
+  };
+
+  // Obtener órdenes enviadas
+  getSentOrders = async (req, res) => {
+    try {
+      const { count, orders } = await this.orderService.getSentOrders();
+      res.status(200).send({ success: true, count, orders });
+    } catch (error) {
+      res.status(400).send({
+        success: false,
+        message: error.message,
+      });
+    }
+  };
+
+  // Obtener órdenes canceladas
+  getCanceledOrders = async (req, res) => {
+    try {
+      const { count, orders } = await this.orderService.getCanceledOrders();
+      res.status(200).send({ success: true, count, orders });
+    } catch (error) {
+      res.status(400).send({
+        success: false,
+        message: error.message,
+      });
+    }
+  };
 }
 
 export default OrderController;

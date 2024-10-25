@@ -34,7 +34,7 @@ Order.init(
       allowNull: false,
     },
     status: {
-      type: DataTypes.ENUM('PagoPendiente', 'Confirmado', 'Preparado', 'Enviado'),
+      type: DataTypes.ENUM('PagoPendiente', 'Confirmado', 'Preparado', 'Enviado', 'Cancelado'),
       allowNull: false,
       defaultValue: 'PagoPendiente',
     },
